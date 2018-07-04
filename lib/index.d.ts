@@ -11,11 +11,16 @@ export declare class FtpClient {
      * Gets underlying ftp command connection
      */
     readonly CommandConnection: FtpCommandConnectionInterface;
+    /**
+     * Connecto to server & returns ftp client instance
+     *
+     * @param { FtpConnectionConfiguration} configuration - connection configuration hots, password etc.
+     */
     static connect(configuration?: FtpConnectionConfiguration): Promise<FtpClient>;
     /**
-     * Creates FtpClient
+     * Creates FtpClient. Use FtpClient.connect() if you want to create simple ftp client.
      *
-     * @param options - connection options (host, user, password etc.)
+     * @param commandConnection - command connection implementation
      */
     constructor(commandConnection: FtpCommandConnectionInterface);
     /**

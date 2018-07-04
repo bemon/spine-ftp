@@ -12,6 +12,7 @@
     "ftp client",
     "typescript"
   ],
+  "url": "https://github.com/bemon/spine-ftp",
   "author": "Grzegorz Beń <grzch@wp.pl>",
   "license": "ISC",
   "dependencies": {
