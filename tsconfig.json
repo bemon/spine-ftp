@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "preserveConstEnums": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "outDir": "lib/",
+        "sourceMap": true,
+        "target": "es2017",
+        "experimentalDecorators": true,
+        "declaration": true,
+        "removeComments": false,
+        "types": [
+            "node"
+        ]
+        
+    },
+    "include": [
+        "src/**/*",
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts",
+        "**/*.test.ts"
+        
+    ]
+}  

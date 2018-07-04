@@ -1,0 +1,53 @@
+{
+  "name": "spine-ftp",
+  "version": "1.0.0",
+  "description": "Yet another ftp client for nodejs written with TypeScript. Fast, reliable & battle tested.",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "nyc mocha"
+  },
+  "keywords": [
+    "ftp",
+    "ftp client",
+    "typescript"
+  ],
+  "author": "Grzegorz Beń <grzch@wp.pl>",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^3.1.0",
+    "iconv-lite": "^0.4.23",
+    "lodash": "^4.17.10"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/debug": "0.0.30",
+    "@types/lodash": "^4.14.110",
+    "@types/mocha": "^5.2.3",
+    "@types/node": "^10.3.4",
+    "@types/sinon": "^5.0.1",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "sinon": "^6.0.1",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
+  }
+}
