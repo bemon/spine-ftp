@@ -1,6 +1,6 @@
 {
   "name": "spine-ftp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Yet another ftp client for nodejs written with TypeScript. Fast, reliable & battle tested.",
   "scripts": {
     "prepublish": "npm run build",
@@ -12,7 +12,7 @@
     "ftp client",
     "typescript"
   ],
-  "url": "https://github.com/bemon/spine-ftp",
+  "homepage": "https://github.com/bemon/spine-ftp",
   "author": "Grzegorz Beń <grzch@wp.pl>",
   "license": "ISC",
   "dependencies": {
