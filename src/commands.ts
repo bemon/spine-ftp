@@ -371,9 +371,12 @@ export class FtpListCommand implements FtpCommand {
                 }
 
                 entries.push(entry);
-            }else{ 
-                for(let r of rows){
-                    entries.push(parseListLine(r));
+            } else {
+                for (let r of rows) {
+                    const entry = parseListLine(r);
+                    if (entry !== undefined) {
+                        entries.push(entry);
+                    }
                 }
             }
         }
