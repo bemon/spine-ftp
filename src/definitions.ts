@@ -241,7 +241,7 @@ export interface FtpEntryInfo {
     modify: Date;
 
     /**
-     * Type, for file its always "file", for dir its always `dir`
+     * Type, for file its always "file", for dir its always `dir`, 'symlinc' for symbolic link unix only, `unknown` if cannot determine entry type
      */
     type: string;
 }

@@ -1,6 +1,6 @@
 {
   "name": "spine-ftp",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Yet another ftp client for nodejs written with TypeScript. Fast, reliable & battle tested.",
   "scripts": {
     "prepublish": "npm run build",

@@ -5,6 +5,7 @@ import { RE_PWD, NEW_LINE, RE_SEP, RE_EQ, RE_EPSV, RE_LAST_MOD_TIME } from './ex
 import * as fs from "fs";
 import * as _ from 'lodash';
 import * as fspath from "path";
+import { parseListLine } from './parseList';
 const debug = require('debug')('spine-ftp');
 
 /**
@@ -327,7 +328,7 @@ export class FtpListCommand implements FtpCommand {
         if (connection.features.MLSD) {
             await connection.write(`MLSD ${path}`);
         } else {
-            throw new FtpException("MLSD not supported by server");
+            await connection.write(`LIST ${path}`);
         }
 
         const response = await connection.getResponse();
@@ -338,39 +339,43 @@ export class FtpListCommand implements FtpCommand {
 
         const result: Buffer = await psvConnection.readToEnd();
 
-
-
         const listing = result.toString((connection.features.UTF8 ? 'utf8' : 'binary')).split(NEW_LINE).filter(l => l !== "");
         const entries = [];
 
         for (let l of listing) {
             const rows = l.split(RE_SEP);
-            const entry: any = {
-                name: rows.pop().substring(1)
-            };
 
-            for (let r of rows) {
-                const props = r.split(RE_EQ);
-                entry[props[0].toLowerCase()] = props[1];
+            if (connection.features.MLSD) {
+                const entry: any = {
+                    name: rows.pop().substring(1)
+                };
+
+                for (let r of rows) {
+                    const props = r.split(RE_EQ);
+                    entry[props[0].toLowerCase()] = props[1];
+                }
+
+                if (entry.size) {
+                    entry.size = parseInt(entry.size);
+                }
+
+                if (entry.modify) {
+                    const year = entry.modify.substr(0, 4);
+                    const month = entry.modify.substr(4, 2);
+                    const date = entry.modify.substr(6, 2);
+                    const hour = entry.modify.substr(8, 2);
+                    const minute = entry.modify.substr(10, 2);
+                    const second = entry.modify.substr(12, 2);
+
+                    entry.modify = new Date(`${year}-${month}-${date}T${hour}:${minute}:${second}`);
+                }
+
+                entries.push(entry);
+            }else{ 
+                for(let r of rows){
+                    entries.push(parseListLine(r));
+                }
             }
-
-            if (entry.size) {
-                entry.size = parseInt(entry.size);
-            }
-
-            if (entry.modify) {
-                const year = entry.modify.substr(0, 4);
-                const month = entry.modify.substr(4, 2);
-                const date = entry.modify.substr(6, 2);
-                const hour = entry.modify.substr(8, 2);
-                const minute = entry.modify.substr(10, 2);
-                const second = entry.modify.substr(12, 2);
-
-                entry.modify = new Date(`${year}-${month}-${date}T${hour}:${minute}:${second}`);
-            }
-
-            entries.push(entry);
-
         }
         return entries;
     }
