@@ -91,7 +91,12 @@ export function parseListLine(line : string) {
         }
 
         // Map list entry to FileInfo instance        
-        const file : FtpEntryInfo = null;
+        const file : FtpEntryInfo = {
+          size: 0,
+          name: "",
+          modify: null,
+          type: "unknown"
+        };
         file.size = parseInt(groups[18], 10);
         //file.modify = groups[19] + " " + groups[20];
 
