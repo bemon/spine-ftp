@@ -143,7 +143,7 @@ export class FtpDisconnectCommand implements FtpCommand {
         await connection.write("QUIT");
 
         const response = await connection.getResponse();
-        if (response.code != 221) {
+        if (response.code >= 400) {
             throw new FtpException("QUIT command failed", response.code);
         }
     }
