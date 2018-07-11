@@ -177,23 +177,26 @@ export class FtpDataConnection extends FtpConnection implements FtpDataConnectio
                 }
             });
 
-            this.socket.once("close", (_hadError: boolean) => {
+            this.socket.once("end",_onEnd);
+            this.socket.once("error", (err: Error) => {
+                rej(err);
+            });
+
+            function _onEnd(_hadError?: boolean) {
                 if (_hadError) {
                     rej(new FtpNetworkException("Data socket error"));
                     return;
                 }
-
+    
                 const finalBuffer = new Buffer(marker);
                 result.copy(finalBuffer, 0, 0, marker);
-
+    
                 this.dispose();
                 res(finalBuffer);
-            });
-
-            this.socket.once("error", (err: Error) => {
-                rej(err);
-            });
+            };
         });
+
+        
     }
 }
 
