@@ -338,6 +338,10 @@ export class FtpListCommand implements FtpCommand {
         }
 
         const result: Buffer = await psvConnection.readToEnd();
+        const dataResponse = await connection.getResponse();
+        if (response.code >= 200) {
+            throw new FtpException("Cannot get directory listing", dataResponse.code, new Error(dataResponse.message));
+        }
 
         const listing = result.toString((connection.features.UTF8 ? 'utf8' : 'binary')).split(NEW_LINE).filter(l => l !== "");
         const entries = [];
