@@ -162,6 +162,7 @@ export class FtpDataConnection extends FtpConnection implements FtpDataConnectio
         const chunkSize = 1024; // 1 kb
         let marker = 0;
         let result: Buffer = Buffer.alloc(chunkSize);
+        const self = this;
 
         return new Promise<Buffer>((res, rej) => {
 
@@ -191,7 +192,7 @@ export class FtpDataConnection extends FtpConnection implements FtpDataConnectio
                 const finalBuffer = new Buffer(marker);
                 result.copy(finalBuffer, 0, 0, marker);
     
-                this.dispose();
+                self.dispose();
                 res(finalBuffer);
             };
         });
