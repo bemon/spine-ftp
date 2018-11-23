@@ -81,6 +81,22 @@ export function testLine(line: string) {
     return line !== undefined && line.match(RE_LINE) !== null;
 };
 
+function pad(value : number, size : number) : string{
+    var s = String(value);
+    while (s.length < (size || 2)) {s = "0" + s;}
+    return s;
+}
+
+function parseDate(datePart : string, hourPart : string) : Date{
+    const months : string[] = ["Jan", "Feb", "Mar", "Apr","May","Jun","Jul","Aug","Sep","Oct","Nov", "Dec"];
+    const dateParts = datePart.split(" ");
+    const day = parseInt(dateParts[1]);
+    const month = months.indexOf(dateParts[0]) + 1;
+    const year = (new Date()).getFullYear();
+
+    return new Date(`${year}-${pad(month, 1)}-${pad(day, 1)}T${hourPart}:00`)
+}
+
 export function parseListLine(line : string) {
     const groups = line.match(RE_LINE);
     if (groups) {
@@ -98,7 +114,7 @@ export function parseListLine(line : string) {
           type: "unknown"
         };
         file.size = parseInt(groups[18], 10);
-        //file.modify = groups[19] + " " + groups[20];
+        file.modify = parseDate(groups[19],groups[20]);
 
         // Set file type
         switch (groups[1].charAt(0)) {
