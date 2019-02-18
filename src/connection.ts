@@ -101,7 +101,6 @@ export class FtpDataConnection extends FtpConnection implements FtpDataConnectio
             throw new FtpException("You must provide port for data connection !")
         }
 
-        this.socket = new net.Socket();
         this.configuration = _.defaults(configuration, {
             timeout: 10000
         });
@@ -118,7 +117,7 @@ export class FtpDataConnection extends FtpConnection implements FtpDataConnectio
         this.socket.pipe(fStream);
         this.socket.on("data", _progressFn);
         return new Promise<void>((res, rej) => {
-            this.socket.once("close", () => {
+            this.socket.once("end", () => {
                 this.disconnect();
                 res();
             });
